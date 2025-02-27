@@ -1,16 +1,6 @@
 # Advanced-Task-1
 
-Name: Harisha S
-
-Company: CODTECH IT SOLUTIONS
-
-ID: CT6WDS2786
-
-Domain: PYTHON PROGRAMMING
-
-Duration: 5 DECEMBER 2024 to 20 JANUARY 2025
-
-Mentor: N Santhosh
+Name: JANGALA RAMA RAO Company: CODTECH IT SOLUTIONS ID: CT0806NF Domain: Python Programming Duration: 12-12-2024 to 26-01-2025 Mentor: Neela Santhosh Kumar
 
 OVERVEIW OF THE PROJECT
 Overview
