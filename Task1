@@ -1,0 +1,86 @@
+import requests
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+from datetime import datetime
+
+# Use your API key
+API_KEY = "	e210e53d865adec79bf5d83123b49d1a"  # Your OpenWeatherMap API key
+CITY = "Bengaluru,IN"
+URL = f"http://api.openweathermap.org/data/2.5/forecast?q=Bengaluru,IN&units=metric&appid=e210e53d865adec79bf5d83123b49d1a"
+# Fetch data from OpenWeatherMap API
+try:
+    print("Fetching data from OpenWeatherMap...")
+    response = requests.get(URL)
+    response.raise_for_status()  # Raise an exception for HTTP errors
+    data = response.json()
+
+    # Debug API response
+    print("API Response Status Code:", response.status_code)
+    if "message" in data:
+        print("API Message:", data["message"])
+    if data.get("cod") != "200":
+        print(f"Error from API: {data.get('message')}")
+        exit()
+except requests.exceptions.RequestException as e:
+    print(f"API request failed: {e}")
+    exit()
+
+# Extracting the required information from the API response
+timestamps = []
+temperatures = []
+humidities = []
+windspeeds = []
+
+for entry in data.get('list', []):
+    timestamps.append(datetime.strptime(entry['dt_txt'], "%Y-%m-%d %H:%M:%S"))
+    temperatures.append(entry['main']['temp'])
+    humidities.append(entry['main']['humidity'])
+    windspeeds.append(entry['wind']['speed'])
+
+# Check if data is populated
+if not timestamps:
+    print("No data available. Check the API response.")
+    exit()
+
+# Create a DataFrame for easier plotting
+weather_data = pd.DataFrame({
+    'Timestamp': timestamps,
+    'Temperature (°C)': temperatures,
+    'Humidity (%)': humidities,
+    'Wind Speed (m/s)': windspeeds
+})
+
+# Plotting the visualizations
+
+# Set up the plotting environment
+sns.set(style="whitegrid")
+fig, axs = plt.subplots(3, 1, figsize=(10, 12))
+
+# Plot Temperature over time
+sns.lineplot(x='Timestamp', y='Temperature (°C)', data=weather_data, ax=axs[0], color="b")
+axs[0].set_title("Temperature Over Time")
+axs[0].set_xlabel("Time")
+axs[0].set_ylabel("Temperature (°C)")
+
+# Plot Humidity over time
+sns.lineplot(x='Timestamp', y='Humidity (%)', data=weather_data, ax=axs[1], color="g")
+axs[1].set_title("Humidity Over Time")
+axs[1].set_xlabel("Time")
+axs[1].set_ylabel("Humidity (%)")
+
+# Plot Wind Speed over time
+sns.lineplot(x='Timestamp', y='Wind Speed (m/s)', data=weather_data, ax=axs[2], color="r")
+axs[2].set_title("Wind Speed Over Time")
+axs[2].set_xlabel("Time")
+axs[2].set_ylabel("Wind Speed (m/s)")
+
+# Auto-format x-axis to make it readable
+for ax in axs:
+    plt.setp(ax.get_xticklabels(), rotation=45, ha='right')
+
+# Adjust layout
+plt.tight_layout()
+
+# Show the dashboard
+plt.show()
