@@ -35,3 +35,7 @@ Create a modular and reusable codebase that can be easily adapted for other citi
 Promote Learning and Collaboration:
 
 Encourage users to learn about API integration, data handling, and visualization by providing well-documented, open-source code
+
+Screenshots: 
+
+![402230726-add1d073-991b-48f7-8eb3-9335f1ed3140](https://github.com/user-attachments/assets/aa566407-b15e-41e5-b9ef-a5672298a21d)
